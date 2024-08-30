@@ -1,0 +1,23 @@
+# Dictionary to store student records
+students = {
+    1: {'name': 'Alice', 'dob': '2001-01-01', 'address': '123 Apple St'},
+    2: {'name': 'Bob', 'dob': '2002-02-02', 'address': '456 Banana St'},
+    3: {'name': 'Charlie', 'dob': '2003-03-03', 'address': '789 Cherry St'}
+}
+
+# List to store roll numbers
+roll_numbers = [1, 2, 3]
+
+# Set to store unique names
+unique_names = {'Alice', 'Bob', 'Charlie'}
+
+# Adding a new student
+new_student = {'name': 'David', 'dob': '2004-04-04', 'address': '1010 Date St'}
+new_roll_no = 4
+students[new_roll_no] = new_student
+roll_numbers.append(new_roll_no)
+unique_names.add(new_student['name'])
+
+print(students)
+print(roll_numbers)
+print(unique_names)
