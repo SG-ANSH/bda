@@ -1,0 +1,33 @@
+import pandas as pd
+
+df = pd.read_csv('Purchases.txt')
+
+category_sales = df.groupby('category')['amount'].sum().reset_index()
+print(category_sales)
+# Filter for specific categories
+toys_sales = df[df['category'] == 'Toys']['amount'].sum()
+consumer_electronics_sales = df[df['category'] == 'Consumer Electronics']['amount'].sum()
+
+print(f'Toys: {toys_sales}')
+print(f'Consumer Electronics: {consumer_electronics_sales}')
+
+
+# Group by 'store' and find the max 'amount'
+highest_sales_per_store = df.groupby('store')['amount'].max().reset_index()
+print(highest_sales_per_store)
+
+# Filter for specific stores and get the required details
+reno_sales = df[df['store'] == 'Reno']['amount'].sum()
+toledo_sales = df[df['store'] == 'Toledo']['amount'].sum()
+chandler_sales = df[df['store'] == 'Chandler']['amount'].sum()
+
+print(f'Reno: {reno_sales}')
+print(f'Toledo: {toledo_sales}')
+print(f'Chandler: {chandler_sales}')
+
+# Calculate total sales value and total number of sales
+total_sales_value = df['amount'].sum()
+total_number_of_sales = df.shape[0]
+
+print(f'Total Sales Value: {total_sales_value}')
+print(f'Total Number of Sales: {total_number_of_sales}')
