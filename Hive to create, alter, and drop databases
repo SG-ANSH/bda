@@ -1,0 +1,60 @@
+pip install pyhive pandas
+
+from pyhive import hive
+import pandas as pd
+
+# Connect to Hive
+conn = hive.Connection(host='localhost', port=10000, username='hadoop')
+
+cursor = conn.cursor()
+# Create Database
+cursor.execute("CREATE DATABASE IF NOT EXISTS test_db")
+
+# Use Database
+cursor.execute("USE test_db")
+
+# Create Table
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS employees (
+        id INT,
+        name STRING,
+        age INT,
+        department STRING
+    ) 
+    ROW FORMAT DELIMITED 
+    FIELDS TERMINATED BY ','
+""")
+
+# Insert Data
+cursor.execute("INSERT INTO employees VALUES (1, 'John Doe', 30, 'HR')")
+cursor.execute("INSERT INTO employees VALUES (2, 'Jane Doe', 25, 'Finance')")
+
+# Alter Table
+cursor.execute("ALTER TABLE employees ADD COLUMNS (salary DOUBLE)")
+
+# Create View
+cursor.execute("CREATE VIEW IF NOT EXISTS employee_view AS SELECT name, department FROM employees")
+
+# Create Function (UDF)
+cursor.execute("""
+    CREATE FUNCTION my_upper AS 'org.apache.hadoop.hive.ql.udf.generic.GenericUDFUpper'
+    USING JAR 'hdfs:///user/hive/lib/hive-contrib-*.jar'
+""")
+
+# Create Index
+cursor.execute("CREATE INDEX IF NOT EXISTS idx_name ON TABLE employees (name) AS 'COMPACT' WITH DEFERRED REBUILD")
+
+# Drop Index
+cursor.execute("DROP INDEX IF EXISTS idx_name ON employees")
+
+# Drop View
+cursor.execute("DROP VIEW IF EXISTS employee_view")
+
+# Drop Table
+cursor.execute("DROP TABLE IF EXISTS employees")
+
+# Drop Database
+cursor.execute("DROP DATABASE IF EXISTS test_db")
+
+cursor.close()
+conn.close()
