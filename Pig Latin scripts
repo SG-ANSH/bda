@@ -1,0 +1,35 @@
+import os
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+# Load the dataset
+def load_books(directory):
+    documents = []
+    filenames = []
+    for filename in os.listdir(directory):
+        with open(os.path.join(directory, filename), 'r', encoding='utf-8') as file:
+            documents.append(file.read())
+            filenames.append(filename)
+    return documents, filenames
+
+# Path to the directory containing eBooks
+books_dir = '/path/to/gutenberg_books'
+documents, filenames = load_books(books_dir)
+
+# Initialize the TF-IDF Vectorizer
+vectorizer = TfidfVectorizer(stop_words='english', max_df=0.95, min_df=2)
+
+# Fit and transform the documents
+tfidf_matrix = vectorizer.fit_transform(documents)
+
+# Get feature names (terms)
+terms = vectorizer.get_feature_names_out()
+
+# Convert the TF-IDF matrix to a pandas DataFrame
+tfidf_df = pd.DataFrame(tfidf_matrix.toarray(), index=filenames, columns=terms)
+
+# Save the TF-IDF values to a CSV file
+tfidf_df.to_csv('tfidf_values.csv')
+
+# Display the TF-IDF DataFrame
+print(tfidf_df)
