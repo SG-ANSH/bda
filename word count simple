@@ -1,0 +1,8 @@
+# Word Count Program in Python.
+
+data = "My Name is Arth Vala. I am from Parul University. I pursued Integrated MCA Course with Specialization in Artificial Intelligence."
+
+print(f'There are {len(data.split())} Words in the Sentence.')
+
+
+
