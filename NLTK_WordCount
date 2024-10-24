@@ -1,0 +1,59 @@
+import string
+
+# Sample list of sentences
+sentences = [
+    "The quick brown fox jumps over the lazy dog.",
+    "A fox was running and jumping in the forest.",
+    "The sun is shining and the weather is great today!"
+]
+
+# 1. Tokenize the text into individual words
+def tokenize_text(sentences):
+    tokens = []
+    for sentence in sentences:
+        tokens.extend(sentence.lower().split())  # Convert to lowercase and split by spaces
+    return tokens
+
+# 2. Remove stop words from the tokenized text
+def remove_stop_words(tokens):
+    # A basic list of English stop words
+    stop_words = set([
+        'a', 'an', 'the', 'and', 'of', 'in', 'on', 'at', 'for', 'to', 'is', 'are', 'were', 'was', 'with', 'by', 'from', 'that', 'which'
+    ])
+    # Remove stop words and punctuation
+    tokens = [word.strip(string.punctuation) for word in tokens if word not in stop_words]
+    return tokens
+
+# 3. Normalize the filtered text using basic stemming (removing 'ing', 'ed', 's' suffixes)
+def normalize_text(tokens):
+    normalized_tokens = []
+    for word in tokens:
+        if word.endswith('ing'):
+            word = word[:-3]
+        elif word.endswith('ed'):
+            word = word[:-2]
+        elif word.endswith('s') and len(word) > 1:  # avoid removing 's' from single character words
+            word = word[:-1]
+        normalized_tokens.append(word)
+    return normalized_tokens
+
+# 4. Display the cleaned text
+def display_cleaned_text(tokens):
+    print(' '.join(tokens))
+
+# Complete Process
+def process_text(sentences):
+    # Tokenize text
+    tokens = tokenize_text(sentences)
+    
+    # Remove stop words
+    filtered_tokens = remove_stop_words(tokens)
+    
+    # Normalize text
+    normalized_tokens = normalize_text(filtered_tokens)
+    
+    # Display cleaned text
+    display_cleaned_text(normalized_tokens)
+
+# Usage
+process_text(sentences)
